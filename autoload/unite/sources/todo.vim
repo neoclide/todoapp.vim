@@ -11,18 +11,14 @@ let s:source = {
             \ 'syntax' : 'uniteSource__todo',
             \ }
 
-let s:source.alias_table = {
-            \ 'open': 'rename',
-            \ 'edit': 'rename',
-            \ }
 let s:source.action_table.toggle = {
             \ 'description' : 'toggle todo',
             \ 'is_selectable': 1,
             \ 'is_quit' : 0,
             \ }
 
-let s:source.action_table.rename = {
-            \ 'description' : 'rename todo',
+let s:source.action_table.edit = {
+            \ 'description' : 'edit todo',
             \ 'is_quit' : 0,
             \ }
 
@@ -48,7 +44,7 @@ endfunction
 
 function! s:source.action_table.toggle.func(candidates) abort
   for candidate in a:candidates
-    let id = matchstr(candidate.word, '\v^\d+')
+    let id = candidate.source__id
     let status = candidate.source__type ==# 'pending' ? 'done' : 'pending'
     let cmd = 'sqlite '.s:file.' "UPDATE todo SET '
             \.'modified='.localtime().', status='.s:quote(status).' WHERE id='.id.'"'
@@ -59,17 +55,19 @@ function! s:source.action_table.toggle.func(candidates) abort
 endfunction
 
 function! s:source.action_table.delete.func(candidate) abort
-  let id = matchstr(a:candidate.word, '\v^\d+')
-  let cmd = 'sqlite '.s:file.' "DELETE from todo where id = '.id.'"'
-  let res = s:system(cmd)
-  if res == -1 | return | endif
-  call unite#force_redraw()
+  if input('Delete '.a:candidate.abbr.'[y/n]? ', 'y') =~? 'y'
+    let id = a:candidate.source__id
+    let cmd = 'sqlite '.s:file.' "DELETE from todo where id = '.id.'"'
+    let res = s:system(cmd)
+    if res == -1 | return | endif
+    call unite#force_redraw()
+  else
+    echohl ErrorMsg | echon 'canceled' | echohl None
+  endif
 endfunction
 
-function! s:source.action_table.rename.func(candidate) abort
-  let word = a:candidate.word
-  let id = matchstr(word, '\v^\d+')
-  execute '1split todo://' . id
+function! s:source.action_table.edit.func(candidate) abort
+  execute '1split todo://' . a:candidate.source__id
 endfunction
 
 function! s:source.hooks.on_init(args, context) abort
@@ -96,11 +94,12 @@ function! s:source.gather_candidates(args, context) abort
   if output == -1 | return | endif
   let todos = split(output, "\n")
   return map( todos,
-              \ '{"word": v:val,
-              \ "abbr": v:val,
+              \ '{"word": substitute(v:val,''\v\d+\|'', "", ""),
+              \ "abbr": substitute(v:val,''\v\d+\|'', "", ""),
               \ "kind": "word",
               \ "source": "todo",
               \ "source__type": type,
+              \ "source__id": matchstr(v:val, ''\v^\d+''),
               \ }')
 endfunction
 
