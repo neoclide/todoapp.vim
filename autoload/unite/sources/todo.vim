@@ -8,7 +8,7 @@ let s:source = {
             \  "default_action" : "toggle",
             \ 'hooks' : {},
             \ 'action_table': {},
-            \ 'syntax' : 'uniteSource__todo',
+            \ 'syntax' : 'uniteSource__Todo',
             \ }
 
 let s:source.action_table.toggle = {
@@ -79,10 +79,18 @@ function! s:source.hooks.on_close(args, context) abort
 endfunction
 
 function! s:source.hooks.on_syntax(args, context) abort
-  syntax match uniteSource__todo_desc /\s\+\zs[A-Z0-9 -]\+/
-              \ contained containedin=uniteSource__todo
-              \ contains=uniteCandidateInputKeyword
-  highlight default link uniteSource__todo_desc Statement
+  syntax case ignore
+  syntax match uniteSource__TodoHeader /^.*$/
+        \ containedin=uniteSource__Todo
+  syntax match uniteSource__TodoId /\v^.*%7c/ contained
+        \ containedin=uniteSource__TodoHeader
+        \ nextgroup=uniteSource__TodoTitle
+  syntax match uniteSource__TodoTime /(\(\w\|\s\)\{-}\sago)/ contained
+        \ containedin=uniteSource__TodoHeader
+
+  highlight default link uniteSource__TodoId Special
+  highlight default link uniteSource__TodoHeader Statement
+  highlight default link uniteSource__TodoTime Constant
 endfunction
 
 function! s:source.gather_candidates(args, context) abort
@@ -100,7 +108,7 @@ function! s:source.gather_candidates(args, context) abort
     let content = matchstr(item, '\v^\d+\|\d+\|\zs.*$')
     let word = printf(' %-4d %s (%s)', id, content, time)
     call add(candidates, {
-          \ "word": word,
+          \ "word": content,
           \ "abbr": word,
           \ "kind": 'word',
           \ "source": "todo",
