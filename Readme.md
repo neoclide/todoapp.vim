@@ -1,6 +1,8 @@
 # Todoapp.vim
 
-Lightweight todo in vim, using [unite.vim](https://github.com/Shougo/unite.vim) and sqlite.
+Lightweight and easy to use todo management in vim.
+
+using [unite.vim](https://github.com/Shougo/unite.vim) and sqlite.
 
 Sqlite is used so that you can build other application on top of it, like a web
 service that could be accessed from your phone.
@@ -32,6 +34,7 @@ Actions in the unite list:
 
 * `toggle` default action, press `<cr>`
 * `edit` edit todo in split buffer, press `q` to save and quit
+* `New` create new todo through prompt
 * `delete`
 
 # License
