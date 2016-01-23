@@ -20,7 +20,7 @@ Install [sqlite](https://www.sqlite.org/) from it's website, or use brew on mac:
 
 Sqlite database is available at `~/.todo/todo.sqlite`
 
-After install plugin, you need to call `:TodoInit` once to create database
+After install plugin, you need to call `:TodoInit` once to create a todo table in database
 
 ## Usage
 
@@ -34,7 +34,7 @@ Actions in the unite list:
 
 * `toggle` default action, press `<cr>`
 * `edit` edit todo in split buffer, press `q` to save and quit
-* `New` create new todo through prompt
+* `new` create new todo through prompt
 * `delete`
 
 # License

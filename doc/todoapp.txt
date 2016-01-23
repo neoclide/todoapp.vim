@@ -1,0 +1,121 @@
+*todoapp.txt*			manage todo list in vim
+
+Author		: Qiming Zhao <chemzqm@gmail.com>
+Version		: 0.1.0
+Last Change	: 2016-01-23
+
+License : MIT license {{{
+
+  Copyright (c) 2016 chemzqm@gmail.com
+
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+  The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+}}}
+
+==============================================================================
+CONTENTS				*todoapp-contents*
+
+INTRODUCTION		|todoapp-introduction|
+PREREQUIREMENT		|todoapp-prerequirement|
+INSTALLATION		|todoapp-installation|
+INTERFACE		|todoapp-interface|
+  COMMANDS			|todoapp-commands|
+  VARIABLES			|todoapp-variables|
+KNOWNISSUE		|iterm_start_issue|
+CHANGELOG		|todoapp-changelog|
+
+==============================================================================
+INTRODUCTION				*todoapp-introduction*
+
+|todoapp| help you manage your todo list, it's a light weight plugin.
+
+It make use of |unite| and |sqlite|.
+
+It support syntax highlight and has friendly user interface.
+
+==============================================================================
+INSTALLATION				*todoapp-installation*
+
+Install with your favorite plugin managers like NeoBundle/Plugin/Plug
+>
+>
+	NeoBundle 'chemzqm/todoapp.vim'
+	Plugin 'chemzqm/todoapp.vim'
+	Plug 'chemzqm/todoapp.vim'
+
+==============================================================================
+PREREQUIREMENT				*todoapp-prerequirement*
+
+|unite| and |sqlite| is required.
+
+You can install |unite| by:
+>
+	NeoBundle 'chemzqm/todoapp.vim'
+	Plugin 'chemzqm/todoapp.vim'
+	Plug 'chemzqm/todoapp.vim'
+
+If you're using brew on mac, you can install sqlite by:
+>
+	brew install sqlite
+
+==============================================================================
+INTERFACE				*todoapp-interface*
+
+|todoapp| introduce some commands and have a unite interface with some builtin
+actions.
+>
+------------------------------------------------------------------------------
+COMMANDS 				*todoapp-commands*
+
+:TodoInit				*:TodoInit*
+
+	Init the todo table in sqlite database.
+
+:TodoAdd {conent...}
+
+	Add a todo item with {content} as arguments.
+
+:TodoImport {file}
+
+	Import todos in {file}, each line stands for {content} of todo item.
+
+:Untie todo[:{status}]
+
+	Open todo source in unite interface, the {status} would be 'pending'
+	if omitted, set to 'done' if you want to load finished todo items.
+
+------------------------------------------------------------------------------
+ACTIONS 				*todoapp-actions*
+					
+					*unite-action-todo*
+	toggle		Default action that toggle status
+	edit		Edit todo item is split buffer
+	delete		Delete todo item
+	new		New todo item from prompt
+
+
+==============================================================================
+CHANGELOG				*todoapp-changelog*
+
+0.1.0	2016-01-23
+	- init.
+
+==============================================================================
+
+vim:tw=78:ts=8:sts=8:ft=help:noet:fen:fdm=marker:
