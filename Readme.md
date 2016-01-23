@@ -30,7 +30,7 @@ After install plugin, you need to call `:TodoInit` once to create database
 
 Actions in the unite list:
 
-* `toggle` for done and undone default action
+* `toggle` default action, press `<cr>`
 * `edit` edit todo in split buffer, press `q` to save and quit
 * `delete`
 
