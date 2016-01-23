@@ -88,19 +88,48 @@ endfunction
 function! s:source.gather_candidates(args, context) abort
   let type = a:context.source__type
 
-  let cmd = 'sqlite '.s:file.' "SELECT id,content from todo where status='.s:quote(type)
+  let cmd = 'sqlite '.s:file.' "SELECT id,modified,content from todo where status='.s:quote(type)
             \.' order by modified desc"'
   let output = s:system(cmd)
   if output == -1 | return | endif
-  let todos = split(output, "\n")
-  return map( todos,
-              \ '{"word": substitute(v:val,''\v\d+\|'', "", ""),
-              \ "abbr": substitute(v:val,''\v\d+\|'', "", ""),
-              \ "kind": "word",
-              \ "source": "todo",
-              \ "source__type": type,
-              \ "source__id": matchstr(v:val, ''\v^\d+''),
-              \ }')
+  let todos = split(output, '\v\n\s*')
+  let candidates = []
+  for item in todos
+    let time = s:relativeTime(matchstr(item, '\v^\d+\|\zs\d+'))
+    let id = matchstr(item, '\v^\d+')
+    let content = matchstr(item, '\v^\d+\|\d+\|\zs.*$')
+    let word = printf(' %-4d %s (%s)', id, content, time)
+    call add(candidates, {
+          \ "word": word,
+          \ "abbr": word,
+          \ "kind": 'word',
+          \ "source": "todo",
+          \ "source__content": content,
+          \ "source__type": type,
+          \ "source__id": id,
+          \ })
+  endfor
+  return candidates
+endfunction
+
+function! s:relativeTime(integer)
+  let diff = localtime() - str2float(a:integer)
+  if diff <=0
+    return 'just now'
+  elseif diff < 60
+    return string(float2nr(diff)) . ' seconds ago'
+  elseif diff/60 < 60
+    return string(float2nr(diff/60)) . ' minutes ago'
+  elseif float2nr(diff/3.6e+3) < 24
+    return string(float2nr(diff/3.6e+3)) . ' hours ago'
+  elseif float2nr(diff/8.64e+4) < 7
+    return string(float2nr(diff/8.64e+4)) . ' days ago'
+  elseif float2nr(diff/6.048e+5) < 4.34812
+    return string(float2nr(diff/6.048e+5)) . ' weeks ago'
+  elseif float2nr(diff/2.63e+6) < 12
+    return string(float2nr(diff/2.63e+6)) . ' months ago'
+  endif
+  return string(float2nr(diff/3.156e+7)) . ' years ago'
 endfunction
 
 function! unite#sources#todo#define()
