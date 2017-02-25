@@ -1,12 +1,12 @@
 *todoapp.txt*			manage todo list in vim
 
 Author		: Qiming Zhao <chemzqm@gmail.com>
-Version		: 0.1.0
-Last Change	: 2016-01-23
+Version		: 0.2.0
+Last Change	: Feb 26, 2017
 
 License : MIT license {{{
 
-  Copyright (c) 2016 chemzqm@gmail.com
+  Copyright (c) 2017 chemzqm@gmail.com
 
   Permission is hereby granted, free of charge, to any person obtaining
   a copy of this software and associated documentation files (the
@@ -45,7 +45,7 @@ INTRODUCTION				*todoapp-introduction*
 
 |todoapp| help you manage your todo list, it's a light weight plugin.
 
-It make use of |unite| and |sqlite|.
+It make use of |denite| and |sqlite|.
 
 It support syntax highlight and has friendly user interface.
 
@@ -62,9 +62,9 @@ Install with your favorite plugin managers like NeoBundle/Plugin/Plug
 ==============================================================================
 PREREQUIREMENT				*todoapp-prerequirement*
 
-|unite| and |sqlite| is required.
+|denite| and |sqlite| is required.
 
-You can install |unite| by:
+You can install |todoapp| by:
 >
 	NeoBundle 'chemzqm/todoapp.vim'
 	Plugin 'chemzqm/todoapp.vim'
@@ -77,7 +77,7 @@ If you're using brew on mac, you can install sqlite by:
 ==============================================================================
 INTERFACE				*todoapp-interface*
 
-|todoapp| introduce some commands and have a unite interface with some builtin
+|todoapp| introduce some commands and have a denite interface with some builtin
 actions.
 >
 ------------------------------------------------------------------------------
@@ -95,25 +95,33 @@ COMMANDS 				*todoapp-commands*
 
 	Import todos in {file}, each line stands for {content} of todo item.
 
-:Untie todo[:{status}]
+:Denite todo[:{status}]
 
-	Open todo source in unite interface, the {status} would be 'pending'
+	Open todo source in denite interface, the {status} would be 'pending'
 	if omitted, set to 'done' if you want to load finished todo items.
 
 ------------------------------------------------------------------------------
 ACTIONS 				*todoapp-actions*
 					
-					*unite-action-todo*
-	toggle		Default action that toggle status
-	edit		Edit todo item is split buffer
-	delete		Delete todo item
-	new		New todo item from prompt
+					*denite-action-todo*
+toggle		Default action that toggle status
+
+edit		Edit todo item is split buffer
+
+delete		Delete todo item
+
+add		New todo item from prompt
 
 
 ==============================================================================
 CHANGELOG				*todoapp-changelog*
 
+0.2.0   2017-02-26
+
+	- support denite
+
 0.1.0	2016-01-23
+
 	- init.
 
 ==============================================================================

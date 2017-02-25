@@ -1,8 +1,11 @@
 # Todoapp.vim
 
+**Upgraded to use [denite.nvim](https://github.com/Shougo/denite.nvim),
+[unite](https://github.com/Shougo/unite.vim) support would be dropped soon**
+
 Lightweight and easy to use todo management in vim.
 
-using [unite.vim](https://github.com/Shougo/unite.vim) and sqlite.
+using [denite.nvim](https://github.com/Shougo/denite.nvim) and sqlite.
 
 Sqlite is used so that you can build other application on top of it, like a web
 service that could be accessed from your phone.
@@ -11,7 +14,7 @@ service that could be accessed from your phone.
 
 Take [vundle](https://github.com/VundleVim/Vundle.vim) for example:
 
-    plugin 'Shougo/unite.vim'
+    plugin 'Shougo/denite.nvim'
     plugin 'chemzqm/todoapp.vim'
 
 Install [sqlite](https://www.sqlite.org/) from it's website, or use brew on mac:
@@ -24,18 +27,15 @@ After install plugin, you need to call `:TodoInit` once to create a todo table i
 
 ## Usage
 
-* `:Todoadd [content]` add todo item.
-* `:TodoInit` init todo database
-* `:TodoImport` import todos from a plain file
-* `Unite todo` show all todo that need to be done.
-* `Unite todo:done` show todos that have been done.
+* `Denite todo` show all todo that need to be done.
+* `Denite todo:done` show todos that have been done.
 
 Actions in the unite list:
 
 * `toggle` default action, press `<cr>`
 * `edit` edit todo in split buffer, press `q` to save and quit
-* `new` create new todo through prompt
-* `delete`
+* `add` create new todo through prompt
+* `delete` delete todo item
 
 # License
 
