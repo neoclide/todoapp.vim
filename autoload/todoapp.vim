@@ -17,6 +17,10 @@ function! todoapp#add(content)
 endfunction
 
 function! todoapp#init()
+  let folder = fnamemodify(s:file, ':h')
+  if !isdirectory(folder)
+    call mkdir($HOME . "/.todo")
+  endif
   let cmd = s:sqlite.' '.s:file.' ''CREATE TABLE IF NOT EXISTS'
         \.' todo(id INTEGER PRIMARY KEY AUTOINCREMENT, created INTEGER, modified INTEGER, status, content)'''
   let res = s:system(cmd)

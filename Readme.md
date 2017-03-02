@@ -33,7 +33,7 @@ After install plugin, you need to call `:TodoInit` once to create a todo table i
 Actions in the unite list:
 
 * `toggle` default action, press `<cr>`
-* `edit` edit todo in split buffer, press `q` to save and quit
+* `edit` edit todo in split buffer
 * `add` create new todo through prompt
 * `delete` delete todo item
 
