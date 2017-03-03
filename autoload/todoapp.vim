@@ -10,7 +10,7 @@ endif
 
 function! todoapp#add(content)
   let time = localtime()
-  let cmd = s:sqlite' '.s:file.' "INSERT INTO todo (created, modified, status, content)'
+  let cmd = s:sqlite.' '.s:file.' "INSERT INTO todo (created, modified, status, content)'
         \.' VALUES('.s:values(time, time, s:quote('pending'), s:quote(a:content)).')"'
   let res = s:system(cmd)
   if res != -1 | echo 'done' | endif
