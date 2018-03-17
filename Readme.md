@@ -1,5 +1,9 @@
 # Todoapp.vim
 
+[![](http://img.shields.io/github/issues/neoclide/todoapp.vim.svg)](https://github.com/neoclide/todoapp.vim/issues)
+[![](http://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![](https://img.shields.io/badge/doc-%3Ah%20todoapp.txt-red.svg)](doc/todoapp.txt)
+
 **Upgraded to use [denite.nvim](https://github.com/Shougo/denite.nvim),
 [unite](https://github.com/Shougo/unite.vim) support would be dropped soon**
 

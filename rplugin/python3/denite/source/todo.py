@@ -29,6 +29,9 @@ def timeago(now, seconds):
         return str(int(diff/2.63e+6)) + ' months ago'
     return str(int(diff/3.156e+7)) + 'years ago'
 
+db = os.path.expanduser('~/.todo/todo.sqlite')
+conn = sqlite3.connect(db)
+
 class Source(Base):
 
     def __init__(self, vim):
@@ -37,13 +40,12 @@ class Source(Base):
         self.matchers = ['matcher_regexp']
         self.kind = Kind(vim)
 
-    def on_init(self, context):
-        db = os.path.expanduser('~/.todo/todo.sqlite')
-        context['__conn'] = sqlite3.connect(db)
-
-    def on_close(self, context):
-        context['__conn'].close()
-        context['__conn'] = None
+#    def on_init(self, context):
+#        db = os.path.expanduser('~/.todo/todo.sqlite')
+#        conn = sqlite3.connect(db)
+#
+#    def on_close(self, context):
+#        conn.close()
 
     def highlight(self):
         self.vim.command('highlight default link deniteSource__TodoHeader Statement')
@@ -60,19 +62,17 @@ class Source(Base):
                          r'contained containedin=deniteSource__TodoHeader')
 
     def gather_candidates(self, context):
-        conn = context['__conn']
         c = conn.cursor()
         args = dict(enumerate(context['args']))
         status = str(args.get(0, 'pending'))
 
         candidates = []
         now = time.time()
-        c.execute('SELECT * from todo where status = ? order by id desc', (status,))
+        c.execute('SELECT * from todo where status = ? order by id desc', (status, ))
         for row in c:
             candidates.append({
                 'word': '%-4d %s (%s)' % (row[0], row[4], timeago(now, row[1])),
                 'source__id': row[0],
-                'source__conn': conn,
                 'source__content': row[4],
                 'source__status': status,
                 })
@@ -88,7 +88,6 @@ class Kind(BaseKind):
         self.name = 'todo'
 
     def action_toggle(self, context):
-        conn = context['targets'][0]['source__conn']
         c = conn.cursor()
         todos = []
         now = time.time()
@@ -99,7 +98,6 @@ class Kind(BaseKind):
         conn.commit()
 
     def action_edit(self, context):
-        conn = context['targets'][0]['source__conn']
         c = conn.cursor()
         target = context['targets'][0]
         content = util.input(self.vim, context, 'Change to:', target['source__content'])
@@ -109,14 +107,12 @@ class Kind(BaseKind):
         conn.commit()
 
     def action_delete(self, context):
-        conn = context['targets'][0]['source__conn']
         c = conn.cursor()
         c.executemany('DELETE FROM todo WHERE id = ?',
                       [(x['source__id'],) for x in context['targets']])
         conn.commit()
 
     def action_add(self, context):
-        conn = context['targets'][0]['source__conn']
         content = util.input(self.vim, context, 'Add: ')
         if not len(content):
             return
