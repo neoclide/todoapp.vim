@@ -16,10 +16,10 @@ service that could be accessed from your phone.
 
 # Install
 
-Take [vundle](https://github.com/VundleVim/Vundle.vim) for example:
+Take [vim-plug](https://github.com/junegunn/vim-plug) for example:
 
-    plugin 'Shougo/denite.nvim'
-    plugin 'chemzqm/todoapp.vim'
+    Plug 'Shougo/denite.nvim'
+    Plug 'chemzqm/todoapp.vim'
 
 Install [sqlite](https://www.sqlite.org/) from it's website, or use brew on mac:
 
