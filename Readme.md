@@ -18,8 +18,8 @@ service that could be accessed from your phone.
 
 Take [vundle](https://github.com/VundleVim/Vundle.vim) for example:
 
-    plugin 'Shougo/denite.nvim'
-    plugin 'chemzqm/todoapp.vim'
+    Plugin 'Shougo/denite.nvim'
+    Plugin 'chemzqm/todoapp.vim'
 
 Install [sqlite](https://www.sqlite.org/) from it's website, or use brew on mac:
 
