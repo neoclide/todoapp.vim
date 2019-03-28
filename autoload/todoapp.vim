@@ -2,10 +2,10 @@ let s:save_cpo = &cpo
 set cpo&vim
 let s:file = expand('~').'/.todo/todo.sqlite'
 
-if executable('sqlite')
-  let s:sqlite = 'sqlite'
-elseif executable('sqlite3')
+if executable('sqlite3')
   let s:sqlite = 'sqlite3'
+elseif executable('sqlite')
+  let s:sqlite = 'sqlite'
 endif
 
 function! todoapp#add(content)
